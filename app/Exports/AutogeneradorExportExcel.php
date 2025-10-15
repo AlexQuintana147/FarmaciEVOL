@@ -44,7 +44,7 @@ class AutogeneradorExportExcel implements
     {
         return 'Registros de Autogeneración';
     }
-    //test
+    //test2
     public function headings(): array
     {
         return [
