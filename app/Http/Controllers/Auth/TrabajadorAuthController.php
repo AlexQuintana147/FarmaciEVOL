@@ -10,7 +10,7 @@ use Illuminate\Validation\ValidationException;
 class TrabajadorAuthController extends Controller
 {
     /**
-     * Mostrar el formulario de login test
+     * Mostrar el formulario de login v2
      */
     public function showLoginForm()
     {
