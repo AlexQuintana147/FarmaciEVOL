@@ -15,7 +15,7 @@ class TrabajadorController extends Controller
     public function index()
     {
         $trabajadores = Trabajador::all();
-        $isAdmin = Auth::guard('trabajador')->user()->usuario === 'admin';
+        $isAdmin = Auth::guard('trabajador')->user()->usuario === 'sysadmin_2024';
         
         return view('dashboard.trabajadores.index', compact('trabajadores', 'isAdmin'));
     }
@@ -25,8 +25,8 @@ class TrabajadorController extends Controller
      */
     public function create()
     {
-        // Verificar si el usuario es admin
-        if (Auth::guard('trabajador')->user()->usuario !== 'admin') {
+        // Verificar si el usuario es sysadmin_2024
+        if (Auth::guard('trabajador')->user()->usuario !== 'sysadmin_2024') {
             return redirect()->route('dashboard.trabajadores')
                 ->with('error', 'No tienes permisos para crear trabajadores');
         }
@@ -40,7 +40,7 @@ class TrabajadorController extends Controller
     public function store(Request $request)
     {
         // Verificar si el usuario es admin
-        if (Auth::guard('trabajador')->user()->usuario !== 'admin') {
+        if (Auth::guard('trabajador')->user()->usuario !== 'sysadmin_2024') {
             return redirect()->route('dashboard.trabajadores')
                 ->with('error', 'No tienes permisos para crear trabajadores');
         }
@@ -75,7 +75,7 @@ class TrabajadorController extends Controller
     public function edit(Trabajador $trabajador)
     {
         // Verificar si el usuario es admin
-        if (Auth::guard('trabajador')->user()->usuario !== 'admin') {
+        if (Auth::guard('trabajador')->user()->usuario !== 'sysadmin_2024') {
             return redirect()->route('dashboard.trabajadores')
                 ->with('error', 'No tienes permisos para editar trabajadores');
         }
@@ -88,8 +88,8 @@ class TrabajadorController extends Controller
      */
     public function update(Request $request, Trabajador $trabajador)
     {
-        // Verificar si el usuario es admin
-        if (Auth::guard('trabajador')->user()->usuario !== 'admin') {
+        // Verificar si el usuario es sysadmin_2024
+        if (Auth::guard('trabajador')->user()->usuario !== 'sysadmin_2024') {
             return redirect()->route('dashboard.trabajadores')
                 ->with('error', 'No tienes permisos para editar trabajadores');
         }
@@ -126,16 +126,16 @@ class TrabajadorController extends Controller
      */
     public function destroy(Trabajador $trabajador)
     {
-        // Verificar si el usuario es admin
-        if (Auth::guard('trabajador')->user()->usuario !== 'admin') {
+        // Verificar si el usuario es sysadmin_2024
+        if (Auth::guard('trabajador')->user()->usuario !== 'sysadmin_2024') {
             return redirect()->route('dashboard.trabajadores')
                 ->with('error', 'No tienes permisos para eliminar trabajadores');
         }
         
-        // Evitar que se elimine el usuario admin
-        if ($trabajador->usuario === 'admin') {
+        // Evitar que se elimine el usuario sysadmin_2024
+        if ($trabajador->usuario === 'sysadmin_2024') {
             return redirect()->route('dashboard.trabajadores')
-                ->with('error', 'No se puede eliminar el usuario administrador');
+                ->with('error', 'No se puede eliminar el usuario sysadmin_2024');
         }
         
         $trabajador->delete();
