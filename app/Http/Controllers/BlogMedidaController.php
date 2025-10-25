@@ -14,13 +14,15 @@ use Illuminate\Support\Facades\Log;
 class BlogMedidaController extends Controller
 {
     protected $apiKey;
-    protected $apiUrl = 'https://openrouter.ai/api/v1/chat/completions';
-    protected $model = 'deepseek/deepseek-chat:free';
+    protected $apiUrl;
+    protected $model;
 
     public function __construct()
     {
         $this->middleware('auth');
-        $this->apiKey = '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';
+        $this->apiKey = env('AI_API_KEY');
+        $this->apiUrl = env('AI_API_URL');
+        $this->model = env('AI_MODEL');
     }
     
     /**
