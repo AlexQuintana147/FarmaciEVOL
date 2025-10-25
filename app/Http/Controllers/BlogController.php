@@ -6,6 +6,7 @@ use App\Models\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Services\ImageUploadService;
 
 class BlogController extends Controller
 {
@@ -43,16 +44,15 @@ class BlogController extends Controller
         $blog->titulo = $request->titulo;
         $blog->subtitulo = $request->subtitulo;
         $blog->contenido = $request->contenido;
-        
+
+        // ✅ Subida de imagen centralizada
         if ($request->hasFile('imagen')) {
-            $imagen = $request->file('imagen');
-            $nombreImagen = time() . '_' . Str::slug($request->titulo) . '.' . $imagen->getClientOriginalExtension();
-            $imagen->move(public_path('imagesBlog'), $nombreImagen);
-            $blog->imagen = 'imagesBlog/' . $nombreImagen;
+            $imageService = new ImageUploadService();
+            $blog->imagen = $imageService->upload($request->file('imagen'), 'imagesBlog');
         }
-        
+
         $blog->save();
-        
+
         return redirect()->route('dashboard.blogs')
             ->with('success', 'Blog creado correctamente.');
     }
@@ -88,21 +88,16 @@ class BlogController extends Controller
         $blog->titulo = $request->titulo;
         $blog->subtitulo = $request->subtitulo;
         $blog->contenido = $request->contenido;
-        
+
+        // ✅ Actualización de imagen centralizada
         if ($request->hasFile('imagen')) {
-            // Eliminar imagen anterior si existe
-            if ($blog->imagen && file_exists(public_path($blog->imagen))) {
-                unlink(public_path($blog->imagen));
-            }
-            
-            $imagen = $request->file('imagen');
-            $nombreImagen = time() . '_' . Str::slug($request->titulo) . '.' . $imagen->getClientOriginalExtension();
-            $imagen->move(public_path('imagesBlog'), $nombreImagen);
-            $blog->imagen = 'imagesBlog/' . $nombreImagen;
+            $imageService = new ImageUploadService();
+            $imageService->deleteIfExists($blog->imagen ?? null);
+            $blog->imagen = $imageService->upload($request->file('imagen'), 'imagesBlog');
         }
-        
+
         $blog->save();
-        
+
         return redirect()->route('dashboard.blogs')
             ->with('success', 'Blog actualizado correctamente.');
     }
@@ -112,13 +107,12 @@ class BlogController extends Controller
      */
     public function destroy(Blog $blog)
     {
-        // Eliminar imagen si existe
-        if ($blog->imagen && file_exists(public_path($blog->imagen))) {
-            unlink(public_path($blog->imagen));
-        }
-        
+        // ✅ Eliminación de imagen centralizada
+        $imageService = new ImageUploadService();
+        $imageService->deleteIfExists($blog->imagen ?? null);
+
         $blog->delete();
-        
+
         return redirect()->route('dashboard.blogs')
             ->with('success', 'Blog eliminado correctamente.');
     }
