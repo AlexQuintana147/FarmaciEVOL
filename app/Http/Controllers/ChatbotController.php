@@ -8,17 +8,20 @@ use App\Models\ChatbotLog;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ChatbotController extends Controller
 {
     protected $apiKey;
-    protected $apiUrl = 'https://openrouter.ai/api/v1/chat/completions';
+    protected $apiUrl;
     protected $model = 'deepseek/deepseek-chat:free';
     protected $catalogPath;
 
     public function __construct()
     {
-        $this->apiKey = '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';
+        // ✅ Cargar configuración segura desde config/services.php
+        $this->apiKey = config('services.openrouter.key');
+        $this->apiUrl = config('services.openrouter.url');
         $this->catalogPath = public_path('catalogo.txt');
     }
 
@@ -149,6 +152,9 @@ class ChatbotController extends Controller
                 ], 500);
             }
         } catch (\Exception $e) {
+            // ✅ Opción: registrar error en canal de logs personalizado (cuando se cree)
+            Log::channel('custom')->error('Error en ChatbotController: '.$e->getMessage());
+
             return response()->json([
                 'success' => false,
                 'message' => 'Error del servidor: ' . $e->getMessage()
