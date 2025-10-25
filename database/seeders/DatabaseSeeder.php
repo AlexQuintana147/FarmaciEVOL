@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
         $trabajadores = Trabajador::factory(5)->create();
 
         Trabajador::factory()->create([
-            'usuario' => 'admin',
-            'password' => bcrypt('admin123'),
+            'usuario' => 'sysadmin_2024',
+            'password' => bcrypt('Fm@rC14Ev0L#2024$'),
             'nombre_completo' => 'Administrador',
             'apellidos' => 'Sistema',
             'dni' => '12345678',
