@@ -53,6 +53,11 @@
                                         <div class="text-danger small mt-1"><i class="fas fa-exclamation-circle me-1"></i>{{ $message }}</div>
                                     @enderror
                                     <div class="form-text">Mínimo 8 caracteres, incluya letras y números.</div>
+                                    
+                                    <!-- Botón para generar contraseña segura -->
+                                    <button type="button" class="btn btn-outline-primary btn-sm mt-2" id="generatePassword">
+                                        <i class="fas fa-magic me-2"></i>Generar Contraseña Segura
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -127,6 +132,7 @@
                             <li>Use nombres de usuario fáciles de recordar pero seguros</li>
                             <li>Las contraseñas deben tener al menos 8 caracteres</li>
                             <li>Verifique que el DNI sea correcto</li>
+                            <li>Use el botón "Generar Contraseña Segura" para crear contraseñas robustas</li>
                         </ul>
                     </div>
                     
@@ -139,4 +145,71 @@
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const generatePasswordBtn = document.getElementById('generatePassword');
+    const passwordInput = document.getElementById('password');
+    
+    generatePasswordBtn.addEventListener('click', function() {
+        const password = generateSecurePassword();
+        passwordInput.value = password;
+        
+        // Mostrar notificación de éxito
+        showPasswordNotification(password);
+    });
+    
+    function generateSecurePassword() {
+        const length = 12;
+        const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const lowercase = 'abcdefghijklmnopqrstuvwxyz';
+        const numbers = '0123456789';
+        const symbols = '!@#$%&*';
+        
+        let password = '';
+        
+        // Asegurar al menos un carácter de cada tipo
+        password += uppercase[Math.floor(Math.random() * uppercase.length)];
+        password += lowercase[Math.floor(Math.random() * lowercase.length)];
+        password += numbers[Math.floor(Math.random() * numbers.length)];
+        password += symbols[Math.floor(Math.random() * symbols.length)];
+        
+        // Completar el resto de la contraseña
+        const allChars = uppercase + lowercase + numbers + symbols;
+        for (let i = password.length; i < length; i++) {
+            password += allChars[Math.floor(Math.random() * allChars.length)];
+        }
+        
+        // Mezclar los caracteres
+        return password.split('').sort(() => Math.random() - 0.5).join('');
+    }
+    
+    function showPasswordNotification(password) {
+        // Crear elemento de notificación
+        const notification = document.createElement('div');
+        notification.className = 'alert alert-success alert-dismissible fade show position-fixed';
+        notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+        notification.innerHTML = `
+            <div class="d-flex align-items-center">
+                <i class="fas fa-check-circle me-2"></i>
+                <div>
+                    <strong>Contraseña generada:</strong><br>
+                    <code class="text-dark">${password}</code>
+                </div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Auto-remover después de 8 segundos
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.remove();
+            }
+        }, 8000);
+    }
+});
+</script>
+
 @endsection
