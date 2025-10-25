@@ -12,50 +12,50 @@
     <div class="floating-icon" style="bottom: 30%; right: 10%; animation: float 9s ease-in-out infinite;"><i class="fas fa-tablets text-warning"></i></div>
     
     <div class="container py-5">
-        <div class="row align-items-center">
-            <div class="col-lg-6 mb-4 mb-lg-0">
-                <div class="bg-white p-4 rounded-lg shadow-sm border-start border-5 border-primary">
-                    <div class="d-flex align-items-center mb-3">
-                        <div class="bg-primary bg-opacity-10 p-2 rounded-circle me-3">
-                            <i class="fas fa-shopping-basket text-primary fa-2x"></i>
+        @if($ultimoProducto)
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <div class="bg-white p-4 rounded-lg shadow-sm border-start border-5 border-primary">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-primary bg-opacity-10 p-2 rounded-circle me-3">
+                                <i class="fas fa-shopping-basket text-primary fa-2x"></i>
+                            </div>
+                            <h1 class="display-5 fw-bold text-primary mb-0">Nuestros Productos</h1>
                         </div>
-                        <h1 class="display-5 fw-bold text-primary mb-0">Nuestros Productos</h1>
-                    </div>
-                    <div class="divider mb-4" style="width: 70px; height: 3px; background-color: var(--medical-green);"></div>
-                    <p class="lead">Descubre nuestra amplia gama de productos farmacéuticos de la más alta calidad para el cuidado de tu salud y bienestar.</p>
-                    <div class="mt-4">
-                        <a href="#productos-container" class="btn btn-primary rounded-pill px-4 py-2 shadow-sm">
-                            <i class="fas fa-search me-2"></i>Explorar productos
-                        </a>
+                        <div class="divider mb-4" style="width: 70px; height: 3px; background-color: var(--medical-green);"></div>
+                        <p class="lead">Descubre nuestra amplia gama de productos farmacéuticos de la más alta calidad para el cuidado de tu salud y bienestar.</p>
+                        <div class="mt-4">
+                            <a href="#productos-container" class="btn btn-primary rounded-pill px-4 py-2 shadow-sm">
+                                <i class="fas fa-search me-2"></i>Explorar productos
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-6 text-center">
-                @php
-                    $imagenUltimoProducto = $ultimoProducto && $ultimoProducto->imagen ? asset($ultimoProducto->imagen) : asset('images/NoImage.png');
-                    $tituloUltimoProducto = $ultimoProducto ? $ultimoProducto->titulo : 'Productos Farmacéuticos';
-                    $categoriaUltimoProducto = $ultimoProducto ? $ultimoProducto->categoria : '';
-                    
-                    $categoryIcon = 'fas fa-pills';
-                    if($categoriaUltimoProducto == 'Cuidado Personal') {
-                        $categoryIcon = 'fas fa-pump-soap';
-                    } elseif($categoriaUltimoProducto == 'Vitaminas') {
-                        $categoryIcon = 'fas fa-apple-alt';
-                    } elseif($categoriaUltimoProducto == 'Bebés') {
-                        $categoryIcon = 'fas fa-baby';
-                    }
-                @endphp
-                <div class="position-relative rounded-lg shadow overflow-hidden" style="transform: rotate(2deg);">
-                    <!-- Etiqueta de nuevo producto -->
-                    <div class="position-absolute top-0 start-0 bg-danger text-white py-1 px-3 m-3 rounded-pill z-index-1 shadow-sm">
-                        <i class="fas fa-bolt me-1"></i> Nuevo
-                    </div>
-                    
-                    <!-- Imagen del producto -->
-                    <img src="{{ $imagenUltimoProducto }}" class="img-fluid" alt="{{ $tituloUltimoProducto }}" style="width: 100%; height: 400px; object-fit: cover;">
-                    
-                    <!-- Información del producto -->
-                    @if($ultimoProducto)
+                <div class="col-lg-6 text-center">
+                    @php
+                        $imagenUltimoProducto = $ultimoProducto && $ultimoProducto->imagen ? asset($ultimoProducto->imagen) : asset('images/NoImage.png');
+                        $tituloUltimoProducto = $ultimoProducto ? $ultimoProducto->titulo : 'Productos Farmacéuticos';
+                        $categoriaUltimoProducto = $ultimoProducto ? $ultimoProducto->categoria : '';
+                        
+                        $categoryIcon = 'fas fa-pills';
+                        if($categoriaUltimoProducto == 'Cuidado Personal') {
+                            $categoryIcon = 'fas fa-pump-soap';
+                        } elseif($categoriaUltimoProducto == 'Vitaminas') {
+                            $categoryIcon = 'fas fa-apple-alt';
+                        } elseif($categoriaUltimoProducto == 'Bebés') {
+                            $categoryIcon = 'fas fa-baby';
+                        }
+                    @endphp
+                    <div class="position-relative rounded-lg shadow overflow-hidden" style="transform: rotate(2deg);">
+                        <!-- Etiqueta de nuevo producto -->
+                        <div class="position-absolute top-0 start-0 bg-danger text-white py-1 px-3 m-3 rounded-pill z-index-1 shadow-sm">
+                            <i class="fas fa-bolt me-1"></i> Nuevo
+                        </div>
+                        
+                        <!-- Imagen del producto -->
+                        <img src="{{ $imagenUltimoProducto }}" class="img-fluid" alt="{{ $tituloUltimoProducto }}" style="width: 100%; height: 400px; object-fit: cover;">
+                        
+                        <!-- Información del producto -->
                         <div class="position-absolute bottom-0 start-0 w-100 p-3 bg-white bg-opacity-90 border-top border-primary border-3">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div>
@@ -71,10 +71,33 @@
                                 </a>
                             </div>
                         </div>
-                    @endif
+                    </div>
                 </div>
             </div>
-        </div>
+        @else
+            <div class="row justify-content-center">
+                <div class="col-md-8 text-center">
+                    <div class="bg-white p-4 rounded-lg shadow-sm border-start border-5 border-primary">
+                        <div class="d-flex align-items-center justify-content-center mb-3">
+                            <div class="bg-primary bg-opacity-10 p-2 rounded-circle me-3">
+                                <i class="fas fa-shopping-basket text-primary fa-2x"></i>
+                            </div>
+                            <h1 class="display-5 fw-bold text-primary mb-0">Nuestros Productos</h1>
+                        </div>
+                        <div class="divider mx-auto mb-4" style="width: 70px; height: 3px; background-color: var(--medical-green);"></div>
+                        
+                        <!-- Mensaje cuando no hay productos -->
+                        <div class="bg-light rounded-3 p-5 shadow-sm">
+                            <div class="mb-4">
+                                <i class="fas fa-pills text-primary" style="font-size: 3rem; opacity: 0.7;"></i>
+                            </div>
+                            <h4 class="text-muted mb-3">No hay productos de momento</h4>
+                            <p class="text-muted">Estamos trabajando en nuevos productos farmacéuticos para ti.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
     </div>
 </div>
 
@@ -207,11 +230,12 @@
             </div>
         @empty
             <div class="col-12 text-center py-5">
-                <div class="bg-white p-5 rounded-lg shadow-sm">
-                    <i class="fas fa-box-open text-muted mb-3" style="font-size: 4rem;"></i>
-                    <h3 class="text-primary">No hay productos disponibles</h3>
-                    <p class="lead">Estamos trabajando para añadir nuevos productos a nuestro catálogo.</p>
-                    <p>Vuelve pronto para ver nuestras novedades.</p>
+                <div class="bg-light rounded-3 p-5 shadow-sm">
+                    <div class="mb-4">
+                        <i class="fas fa-pills text-primary" style="font-size: 3rem; opacity: 0.7;"></i>
+                    </div>
+                    <h4 class="text-muted mb-3">No hay productos de momento</h4>
+                    <p class="text-muted">Estamos trabajando en nuevos productos para ti.</p>
                 </div>
             </div>
         @endforelse
