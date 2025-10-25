@@ -152,8 +152,13 @@ class ChatbotController extends Controller
                 ], 500);
             }
         } catch (\Exception $e) {
-            // ✅ Opción: registrar error en canal de logs personalizado (cuando se cree)
-            Log::channel('custom')->error('Error en ChatbotController: '.$e->getMessage());
+            // ✅ Registro detallado en el canal personalizado "custom"
+            Log::channel('custom')->error('Error en ChatbotController', [
+                'usuario' => auth()->guard('trabajador')->check() ? auth('trabajador')->user()->email : 'Invitado',
+                'mensaje_usuario' => $request->input('message'),
+                'error' => $e->getMessage(),
+                'fecha' => now()->toDateTimeString(),
+            ]);
 
             return response()->json([
                 'success' => false,
