@@ -7,6 +7,7 @@ use App\Models\Producto;
 use App\Models\Trabajador;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Services\ImageUploadService;
 
 class ProductoController extends Controller
 {
@@ -55,14 +56,12 @@ class ProductoController extends Controller
         ]);
 
         $data = $request->all();
-        // Asignar el trabajador autenticado
         $data['trabajador_id'] = auth()->guard('trabajador')->user()->id;
-        // Manejar la carga de imagen
+
+        // ✅ Subida de imagen centralizada
         if ($request->hasFile('imagen')) {
-            $imagen = $request->file('imagen');
-            $nombreImagen = time() . '_' . Str::slug($request->titulo) . '.' . $imagen->getClientOriginalExtension();
-            $imagen->move(public_path('imagesProductos'), $nombreImagen);
-            $data['imagen'] = 'imagesProductos/' . $nombreImagen;
+            $imageService = new ImageUploadService();
+            $data['imagen'] = $imageService->upload($request->file('imagen'), 'imagesProductos');
         }
 
         Producto::create($data);
@@ -102,18 +101,12 @@ class ProductoController extends Controller
         ]);
 
         $data = $request->all();
-        
-        // Manejar la carga de imagen
+
+        // ✅ Actualización de imagen centralizada
         if ($request->hasFile('imagen')) {
-            // Eliminar imagen anterior si existe
-            if ($producto->imagen && file_exists(public_path($producto->imagen))) {
-                unlink(public_path($producto->imagen));
-            }
-            
-            $imagen = $request->file('imagen');
-            $nombreImagen = time() . '_' . Str::slug($request->titulo) . '.' . $imagen->getClientOriginalExtension();
-            $imagen->move(public_path('imagesProductos'), $nombreImagen);
-            $data['imagen'] = 'imagesProductos/' . $nombreImagen;
+            $imageService = new ImageUploadService();
+            $imageService->deleteIfExists($producto->imagen ?? null);
+            $data['imagen'] = $imageService->upload($request->file('imagen'), 'imagesProductos');
         }
 
         $producto->update($data);
@@ -127,15 +120,13 @@ class ProductoController extends Controller
      */
     public function destroy(Producto $producto)
     {
-        // Eliminar imagen si existe
-        if ($producto->imagen && file_exists(public_path($producto->imagen))) {
-            unlink(public_path($producto->imagen));
-        }
-        
+        // ✅ Eliminación de imagen centralizada
+        $imageService = new ImageUploadService();
+        $imageService->deleteIfExists($producto->imagen ?? null);
+
         $producto->delete();
 
         return redirect()->route('dashboard.productos')
                          ->with('success', 'Producto eliminado exitosamente');
     }
-
 }
