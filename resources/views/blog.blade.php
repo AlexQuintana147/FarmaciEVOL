@@ -12,41 +12,41 @@
     <div class="floating-icon" style="bottom: 30%; right: 10%; animation: float 9s ease-in-out infinite;"><i class="fas fa-stethoscope text-info"></i></div>
     
     <div class="container py-5">
-        <div class="row align-items-center">
-            <div class="col-lg-6 mb-4 mb-lg-0">
-                <div class="bg-white p-4 rounded-lg shadow-sm border-start border-5 border-primary">
-                    <div class="d-flex align-items-center mb-3">
-                        <div class="bg-primary bg-opacity-10 p-2 rounded-circle me-3">
-                            <i class="fas fa-newspaper text-primary fa-2x"></i>
+        @if($ultimoBlog)
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <div class="bg-white p-4 rounded-lg shadow-sm border-start border-5 border-primary">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-primary bg-opacity-10 p-2 rounded-circle me-3">
+                                <i class="fas fa-newspaper text-primary fa-2x"></i>
+                            </div>
+                            <h1 class="display-5 fw-bold text-primary mb-0">Blog de Salud</h1>
                         </div>
-                        <h1 class="display-5 fw-bold text-primary mb-0">Blog de Salud</h1>
-                    </div>
-                    <div class="divider mb-4" style="width: 70px; height: 3px; background-color: var(--medical-green);"></div>
-                    <p class="lead">Artículos y consejos de salud escritos por nuestros profesionales farmacéuticos para ayudarte a cuidar tu bienestar.</p>
-                    <div class="mt-4">
-                        <a href="#blogs-container" class="btn btn-primary rounded-pill px-4 py-2 shadow-sm">
-                            <i class="fas fa-search me-2"></i>Explorar artículos
-                        </a>
+                        <div class="divider mb-4" style="width: 70px; height: 3px; background-color: var(--medical-green);"></div>
+                        <p class="lead">Artículos y consejos de salud escritos por nuestros profesionales farmacéuticos para ayudarte a cuidar tu bienestar.</p>
+                        <div class="mt-4">
+                            <a href="#blogs-container" class="btn btn-primary rounded-pill px-4 py-2 shadow-sm">
+                                <i class="fas fa-search me-2"></i>Explorar artículos
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-6 text-center">
-                @php
-                    $imagenUltimoBlog = $ultimoBlog && $ultimoBlog->imagen ? asset($ultimoBlog->imagen) : asset('images/NoImage.png');
-                    $tituloUltimoBlog = $ultimoBlog ? $ultimoBlog->titulo : 'Blog de Salud';
-                    $subtituloUltimoBlog = $ultimoBlog ? $ultimoBlog->subtitulo : '';
-                @endphp
-                <div class="position-relative rounded-lg shadow overflow-hidden" style="transform: rotate(-2deg);">
-                    <!-- Etiqueta de nuevo artículo -->
-                    <div class="position-absolute top-0 start-0 bg-primary text-white py-1 px-3 m-3 rounded-pill z-index-1 shadow-sm">
-                        <i class="fas fa-star me-1"></i> Destacado
-                    </div>
-                    
-                    <!-- Imagen del blog -->
-                    <img src="{{ $imagenUltimoBlog }}" class="img-fluid" alt="{{ $tituloUltimoBlog }}" style="width: 100%; height: 400px; object-fit: cover;">
-                    
-                    <!-- Información del blog -->
-                    @if($ultimoBlog)
+                <div class="col-lg-6 text-center">
+                    @php
+                        $imagenUltimoBlog = $ultimoBlog && $ultimoBlog->imagen ? asset($ultimoBlog->imagen) : asset('images/NoImage.png');
+                        $tituloUltimoBlog = $ultimoBlog ? $ultimoBlog->titulo : 'Blog de Salud';
+                        $subtituloUltimoBlog = $ultimoBlog ? $ultimoBlog->subtitulo : '';
+                    @endphp
+                    <div class="position-relative rounded-lg shadow overflow-hidden" style="transform: rotate(-2deg);">
+                        <!-- Etiqueta de nuevo artículo -->
+                        <div class="position-absolute top-0 start-0 bg-primary text-white py-1 px-3 m-3 rounded-pill z-index-1 shadow-sm">
+                            <i class="fas fa-star me-1"></i> Destacado
+                        </div>
+                        
+                        <!-- Imagen del blog -->
+                        <img src="{{ $imagenUltimoBlog }}" class="img-fluid" alt="{{ $tituloUltimoBlog }}" style="width: 100%; height: 400px; object-fit: cover;">
+                        
+                        <!-- Información del blog -->
                         <div class="position-absolute bottom-0 start-0 w-100 p-3 bg-white bg-opacity-90 border-top border-primary border-3">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div>
@@ -62,10 +62,33 @@
                                 </a>
                             </div>
                         </div>
-                    @endif
+                    </div>
                 </div>
             </div>
-        </div>
+        @else
+            <div class="row justify-content-center">
+                <div class="col-md-8 text-center">
+                    <div class="bg-white p-4 rounded-lg shadow-sm border-start border-5 border-primary">
+                        <div class="d-flex align-items-center justify-content-center mb-3">
+                            <div class="bg-primary bg-opacity-10 p-2 rounded-circle me-3">
+                                <i class="fas fa-newspaper text-primary fa-2x"></i>
+                            </div>
+                            <h1 class="display-5 fw-bold text-primary mb-0">Blog de Salud</h1>
+                        </div>
+                        <div class="divider mx-auto mb-4" style="width: 70px; height: 3px; background-color: var(--medical-green);"></div>
+                        
+                        <!-- Mensaje cuando no hay blogs -->
+                        <div class="bg-light rounded-3 p-5 shadow-sm">
+                            <div class="mb-4">
+                                <i class="fas fa-book-medical text-primary" style="font-size: 3rem; opacity: 0.7;"></i>
+                            </div>
+                            <h4 class="text-muted mb-3">De momento no tenemos blogs que mostrarte</h4>
+                            <p class="text-muted">Estamos trabajando en nuevos artículos de salud y bienestar para ti.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
     </div>
 </div>
 

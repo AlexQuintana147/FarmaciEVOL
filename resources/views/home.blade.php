@@ -577,22 +577,40 @@
 
 <div class="blog-section py-5">
     <div class="container py-4">
-        <div class="row align-items-center">
-            <div class="col-md-6 mb-4 mb-md-0">
-                <span class="badge bg-primary text-white px-3 py-2 rounded-pill mb-3">Actualidad</span>
-                <h2 class="fw-bold text-primary mb-3">Últimas Novedades</h2>
-                <div class="divider mb-4" style="width: 70px; height: 3px; background-color: #0d6efd;"></div>
-                <p class="lead mb-4">Mantente informado sobre nuestros nuevos productos y artículos de salud en nuestro blog. Consejos de expertos para cuidar tu bienestar.</p>
-                <a href="{{ url('/blog') }}" class="btn btn-primary btn-lg shadow-sm"><i class="fas fa-book-medical me-2"></i>Visitar Blog</a>
-            </div>
-            <div class="col-md-6 text-center">
-                @if(count($blogs) > 0)
+        @if(count($blogs) > 0)
+            <div class="row align-items-center">
+                <div class="col-md-6 mb-4 mb-md-0">
+                    <span class="badge bg-primary text-white px-3 py-2 rounded-pill mb-3">Actualidad</span>
+                    <h2 class="fw-bold text-primary mb-3">Últimas Novedades</h2>
+                    <div class="divider mb-4" style="width: 70px; height: 3px; background-color: #0d6efd;"></div>
+                    <p class="lead mb-4">Mantente informado sobre nuestros nuevos productos y artículos de salud en nuestro blog. Consejos de expertos para cuidar tu bienestar.</p>
+                    <a href="{{ url('/blog') }}" class="btn btn-primary btn-lg shadow-sm"><i class="fas fa-book-medical me-2"></i>Visitar Blog</a>
+                </div>
+                <div class="col-md-6 text-center">
                     <img src="{{ asset($blogs[0]['imagen']) }}" class="img-fluid rounded blog-img" alt="{{ $blogs[0]['titulo'] }}">
-                @else
-                    <img src="{{ asset('images/NoImage.png') }}" class="img-fluid rounded blog-img" alt="Blog DrodiPharma">
-                @endif
+                </div>
             </div>
-        </div>
+        @else
+            <div class="row justify-content-center">
+                <div class="col-md-8 text-center">
+                    <span class="badge bg-primary text-white px-3 py-2 rounded-pill mb-3">Actualidad</span>
+                    <h2 class="fw-bold text-primary mb-3">Últimas Novedades</h2>
+                    <div class="divider mx-auto mb-4" style="width: 70px; height: 3px; background-color: #0d6efd;"></div>
+                    
+                    <!-- Mensaje cuando no hay blogs -->
+                    <div class="bg-light rounded-3 p-5 shadow-sm">
+                        <div class="mb-4">
+                            <i class="fas fa-book-medical text-primary" style="font-size: 3rem; opacity: 0.7;"></i>
+                        </div>
+                        <h4 class="text-muted mb-3">De momento no tenemos blogs que mostrarte</h4>
+                        <p class="text-muted mb-4">Estamos trabajando en nuevos contenidos de salud y bienestar para ti.</p>
+                        <a href="{{ url('/blog') }}" class="btn btn-outline-primary btn-lg shadow-sm">
+                            <i class="fas fa-book-medical me-2"></i>Visitar Blog
+                        </a>
+                    </div>
+                </div>
+            </div>
+        @endif
     </div>
 </div>
 

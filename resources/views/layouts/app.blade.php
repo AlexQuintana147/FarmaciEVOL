@@ -484,12 +484,6 @@
     </main>
 
     <footer class="footer mt-5">
-        <!-- Elementos decorativos médicos flotantes -->
-        <div class="floating-icon" style="top: 15%; left: 10%;"><i class="fas fa-capsules"></i></div>
-        <div class="floating-icon" style="top: 25%; right: 15%;"><i class="fas fa-prescription-bottle-alt"></i></div>
-        <div class="floating-icon" style="bottom: 20%; left: 20%;"><i class="fas fa-heartbeat"></i></div>
-        <div class="floating-icon" style="bottom: 30%; right: 10%;"><i class="fas fa-first-aid"></i></div>
-        
         <div class="container">
             <div class="row gy-4">
                 <div class="col-lg-4 col-md-6">
