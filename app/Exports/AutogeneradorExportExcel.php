@@ -63,7 +63,7 @@ class AutogeneradorExportExcel implements
             $log->id,
             $log->titulo,
             substr($log->descripcion, 0, 100) . (strlen($log->descripcion) > 100 ? '...' : ''),
-            $log->trabajador->usuario ?? 'N/A',
+            $log->trabajador?->usuario ?? 'N/A',
             $log->created_at->format('d/m/Y H:i'),
             $log->updated_at->format('d/m/Y H:i')
         ];

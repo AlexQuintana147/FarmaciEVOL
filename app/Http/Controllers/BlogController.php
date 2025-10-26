@@ -70,6 +70,7 @@ class BlogController extends Controller
      */
     public function edit(Blog $blog)
     {
+        $this->authorize('update', $blog);
         return view('dashboard.blogs.edit', compact('blog'));
     }
 
@@ -78,6 +79,7 @@ class BlogController extends Controller
      */
     public function update(Request $request, Blog $blog)
     {
+        $this->authorize('update', $blog);
         $request->validate([
             'titulo' => 'required|max:255',
             'subtitulo' => 'required|max:255',
@@ -112,6 +114,7 @@ class BlogController extends Controller
      */
     public function destroy(Blog $blog)
     {
+        $this->authorize('delete', $blog);
         // Eliminar imagen si existe
         if ($blog->imagen && file_exists(public_path($blog->imagen))) {
             unlink(public_path($blog->imagen));

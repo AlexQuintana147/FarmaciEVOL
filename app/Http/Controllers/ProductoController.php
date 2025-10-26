@@ -15,22 +15,20 @@ class ProductoController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Producto::with('trabajador')->latest();
+       $query
+        ->when($request->search, function ($query, $search) {
+            return $query
+                ->where('titulo', 'like', "%{$search}%")
+                ->orWhere('descripcion', 'like', "%{$search}%");
+        })
+        ->when($request->categoria && $request->categoria !== 'todos', function ($query) use ($request) {
+            return $query->where('categoria', $request->categoria);
+        });
+
+        $search = $request->search;
         
-        // Filtrar por búsqueda
-        if ($request->has('search')) {
-            $search = $request->search;
-            $query->where('titulo', 'like', "%{$search}%")
-                  ->orWhere('descripcion', 'like', "%{$search}%");
-        }
-        
-        // Filtrar por categoría
-        if ($request->has('categoria') && $request->categoria != 'todos') {
-            $query->where('categoria', $request->categoria);
-        }
-        
-        $productos = $query->get();
-        return view('dashboard.productos.index', compact('productos'));
+        $productos = $query->paginate(10);
+        return view('dashboard.productos.index', compact('productos', 'search'));
     }
 
     /**
@@ -54,7 +52,7 @@ class ProductoController extends Controller
             'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $data = $request->all();
+        $data = $request->only([ 'titulo', 'categoria', 'descripcion', 'imagen']);
         // Asignar el trabajador autenticado
         $data['trabajador_id'] = auth()->guard('trabajador')->user()->id;
         // Manejar la carga de imagen
