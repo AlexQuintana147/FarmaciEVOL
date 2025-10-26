@@ -8,6 +8,7 @@ use App\Models\Trabajador;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Services\ImageUploadService;
+use Illuminate\Support\Facades\Log;
 
 class ProductoController extends Controller
 {
@@ -48,26 +49,39 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'titulo' => 'required|max:255',
-            'categoria' => 'required',
-            'descripcion' => 'required',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+        try {
+            $request->validate([
+                'titulo' => 'required|max:255',
+                'categoria' => 'required',
+                'descripcion' => 'required',
+                'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
 
-        $data = $request->all();
-        $data['trabajador_id'] = auth()->guard('trabajador')->user()->id;
+            $data = $request->all();
+            $data['trabajador_id'] = auth()->guard('trabajador')->user()->id;
 
-        // ✅ Subida de imagen centralizada
-        if ($request->hasFile('imagen')) {
-            $imageService = new ImageUploadService();
-            $data['imagen'] = $imageService->upload($request->file('imagen'), 'imagesProductos');
+            // ✅ Subida de imagen centralizada
+            if ($request->hasFile('imagen')) {
+                $imageService = new ImageUploadService();
+                $data['imagen'] = $imageService->upload($request->file('imagen'), 'imagesProductos');
+            }
+
+            Producto::create($data);
+
+            return redirect()->route('dashboard.productos')
+                             ->with('success', 'Producto creado exitosamente');
+        } catch (\Exception $e) {
+            // ✅ Registrar error en el canal custom
+            Log::channel('custom')->error('Error en ProductoController', [
+                'usuario' => auth()->guard('trabajador')->check() ? auth('trabajador')->user()->email : 'Invitado',
+                'accion' => 'store',
+                'error' => $e->getMessage(),
+                'fecha' => now()->toDateTimeString(),
+            ]);
+
+            return redirect()->route('dashboard.productos')
+                             ->with('error', 'Ocurrió un error al crear el producto.');
         }
-
-        Producto::create($data);
-
-        return redirect()->route('dashboard.productos')
-                         ->with('success', 'Producto creado exitosamente');
     }
 
     /**
@@ -93,26 +107,39 @@ class ProductoController extends Controller
      */
     public function update(Request $request, Producto $producto)
     {
-        $request->validate([
-            'titulo' => 'required|max:255',
-            'categoria' => 'required',
-            'descripcion' => 'required',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+        try {
+            $request->validate([
+                'titulo' => 'required|max:255',
+                'categoria' => 'required',
+                'descripcion' => 'required',
+                'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
 
-        $data = $request->all();
+            $data = $request->all();
 
-        // ✅ Actualización de imagen centralizada
-        if ($request->hasFile('imagen')) {
-            $imageService = new ImageUploadService();
-            $imageService->deleteIfExists($producto->imagen ?? null);
-            $data['imagen'] = $imageService->upload($request->file('imagen'), 'imagesProductos');
+            // ✅ Actualización de imagen centralizada
+            if ($request->hasFile('imagen')) {
+                $imageService = new ImageUploadService();
+                $imageService->deleteIfExists($producto->imagen ?? null);
+                $data['imagen'] = $imageService->upload($request->file('imagen'), 'imagesProductos');
+            }
+
+            $producto->update($data);
+
+            return redirect()->route('dashboard.productos')
+                             ->with('success', 'Producto actualizado exitosamente');
+        } catch (\Exception $e) {
+            // ✅ Registrar error en el canal custom
+            Log::channel('custom')->error('Error en ProductoController', [
+                'usuario' => auth()->guard('trabajador')->check() ? auth('trabajador')->user()->email : 'Invitado',
+                'accion' => 'update',
+                'error' => $e->getMessage(),
+                'fecha' => now()->toDateTimeString(),
+            ]);
+
+            return redirect()->route('dashboard.productos')
+                             ->with('error', 'Ocurrió un error al actualizar el producto.');
         }
-
-        $producto->update($data);
-
-        return redirect()->route('dashboard.productos')
-                         ->with('success', 'Producto actualizado exitosamente');
     }
 
     /**
@@ -120,13 +147,26 @@ class ProductoController extends Controller
      */
     public function destroy(Producto $producto)
     {
-        // ✅ Eliminación de imagen centralizada
-        $imageService = new ImageUploadService();
-        $imageService->deleteIfExists($producto->imagen ?? null);
+        try {
+            // ✅ Eliminación de imagen centralizada
+            $imageService = new ImageUploadService();
+            $imageService->deleteIfExists($producto->imagen ?? null);
 
-        $producto->delete();
+            $producto->delete();
 
-        return redirect()->route('dashboard.productos')
-                         ->with('success', 'Producto eliminado exitosamente');
+            return redirect()->route('dashboard.productos')
+                             ->with('success', 'Producto eliminado exitosamente');
+        } catch (\Exception $e) {
+            // ✅ Registrar error en el canal custom
+            Log::channel('custom')->error('Error en ProductoController', [
+                'usuario' => auth()->guard('trabajador')->check() ? auth('trabajador')->user()->email : 'Invitado',
+                'accion' => 'destroy',
+                'error' => $e->getMessage(),
+                'fecha' => now()->toDateTimeString(),
+            ]);
+
+            return redirect()->route('dashboard.productos')
+                             ->with('error', 'Ocurrió un error al eliminar el producto.');
+        }
     }
 }
