@@ -14,19 +14,19 @@ class DashboardController extends Controller
      * Mostrar el dashboard principal
      */
     public function index()
-    {
-        $stats = [
-            'blogs' => Blog::count(),
-            'productos' => Producto::count(),
-            'trabajadores' => Trabajador::count(),
-            'ofertas' => Oferta::count(),
-        ];
-        
-        $recentBlogs = Blog::with('trabajador')->latest()->take(5)->get();
-        $recentProductos = Producto::latest()->take(5)->get();
-        
-        return view('dashboard.index', compact('stats', 'recentBlogs', 'recentProductos'));
-    }
+{
+    $stats = [
+        'blogs' => Blog::count(),
+        'productos' => Producto::count(),
+        'trabajadores' => Trabajador::count(),
+        'ofertas' => Oferta::count(),
+    ];
+    
+    $recentBlogs = Blog::with('trabajador')->latest()->take(5)->get();
+    $recentProductos = Producto::with('trabajador')->latest()->take(5)->get(); // ✓ Agregado
+    
+    return view('dashboard.index', compact('stats', 'recentBlogs', 'recentProductos'));
+}
     
     /**
      * Mostrar la lista de blogs
