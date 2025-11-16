@@ -18,10 +18,15 @@ class ProductoController extends Controller
         $query = Producto::with('trabajador')->latest();
         
         // Filtrar por búsqueda
-        if ($request->has('search')) {
+       if ($request->filled('search')) {
             $search = $request->search;
-            $query->where('titulo', 'like', "%{$search}%")
-                  ->orWhere('descripcion', 'like', "%{$search}%");
+            $query->where(function($q) use ($search) {
+                $q->where('titulo', 'like', "%{$search}%")
+                ->orWhere('descripcion', 'like', "%{$search}%")
+                ->orWhereHas('trabajador', function($q) use ($search) {
+                    $q->where('nombre_completo', 'like', "%{$search}%");
+                 });
+            });
         }
         
         // Filtrar por categoría
