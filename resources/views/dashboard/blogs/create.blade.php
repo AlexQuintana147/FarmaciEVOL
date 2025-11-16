@@ -217,7 +217,7 @@
         font-weight: 700;
         color: #2d3748;
         line-height: 1;
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Lato', sans-serif;
     }
     
     .gauge-label {

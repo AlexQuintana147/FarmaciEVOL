@@ -8,7 +8,7 @@
 
     /* Estilos generales mejorados */
     body {
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Lato', sans-serif;
         color: #333;
     }
     
@@ -667,6 +667,6 @@
 <!-- Agregar enlace a Font Awesome en la sección head -->
 @section('extra_css')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
 @endsection
 @endsection
