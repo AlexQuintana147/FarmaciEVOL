@@ -24,7 +24,7 @@ class OfertaController extends Controller
             $query->where('titulo', 'like', "%{$search}%");
         }
         
-        $ofertas = $query->get();
+        $ofertas = $query->paginate(10)->withQueryString();
         return view('dashboard.ofertas.index', compact('ofertas'));
     }
 
