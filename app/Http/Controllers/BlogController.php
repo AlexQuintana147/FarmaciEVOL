@@ -73,21 +73,23 @@ class BlogController extends Controller
         return view('dashboard.blogs.edit', compact('blog'));
     }
 
-    /**
+     /**
      * Update the specified resource in storage.
+     * 
+     * OPTIMIZACIÓN: Uso de update() con array en lugar de asignaciones
+     * individuales seguidas de save(). Más limpio y eficiente.
      */
     public function update(Request $request, Blog $blog)
     {
         $request->validate([
-            'titulo' => 'required|max:255',
+            'titulo' => 'required|max:255|unique:blogs,titulo,' . $blog->id,
             'subtitulo' => 'required|max:255',
-            'contenido' => 'required',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'contenido' => 'required|min:20',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
-        $blog->titulo = $request->titulo;
-        $blog->subtitulo = $request->subtitulo;
-        $blog->contenido = $request->contenido;
+        // Preparar datos
+        $data = $request->only(['titulo', 'subtitulo', 'contenido']);
         
         if ($request->hasFile('imagen')) {
             // Eliminar imagen anterior si existe
@@ -98,13 +100,13 @@ class BlogController extends Controller
             $imagen = $request->file('imagen');
             $nombreImagen = time() . '_' . Str::slug($request->titulo) . '.' . $imagen->getClientOriginalExtension();
             $imagen->move(public_path('imagesBlog'), $nombreImagen);
-            $blog->imagen = 'imagesBlog/' . $nombreImagen;
+            $data['imagen'] = 'imagesBlog/' . $nombreImagen;
         }
         
-        $blog->save();
+        $blog->update($data);
         
         return redirect()->route('dashboard.blogs')
-            ->with('success', 'Blog actualizado correctamente.');
+            ->with('success', '✏️ Blog "' . $blog->titulo . '" actualizado correctamente');
     }
 
     /**
