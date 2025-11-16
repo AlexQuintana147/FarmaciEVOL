@@ -49,41 +49,41 @@
     </div>
 </section>
 
-<!-- Valores Section with Animation -->
+<!-- Valores Section -->
 <section class="py-5">
     <div class="container">
-        <h2 class="text-center mb-5 text-primary" data-aos="fade-up">Nuestros Valores</h2>
+        <h2 class="text-center mb-5 text-primary">Nuestros Valores</h2>
         <div class="row g-4 justify-content-center">
-            <div class="col-md-4 col-lg-3" data-aos="fade-up">
-                <div class="text-center p-4 rounded-3 bg-white shadow-sm h-100 transition-hover" style="transition: transform 0.3s ease;">
-                    <div class="d-inline-block p-3 bg-primary bg-opacity-10 rounded-circle mb-3 rotate-on-hover">
+            <div class="col-md-4 col-lg-3">
+                <div class="text-center p-4 h-100">
+                    <div class="d-inline-block p-3 mb-3">
                         <i class="fas fa-heart fa-2x text-primary"></i>
                     </div>
                     <h4 class="h5 mb-3 text-primary">Compromiso</h4>
                     <p class="text-muted mb-0">Entregamos productos de calidad con un servicio de primer nivel.</p>
                 </div>
             </div>
-            <div class="col-md-4 col-lg-3" data-aos="fade-up" data-aos-delay="100">
-                <div class="text-center p-4 rounded-3 bg-white shadow-sm h-100 transition-hover" style="transition: transform 0.3s ease;">
-                    <div class="d-inline-block p-3 bg-primary bg-opacity-10 rounded-circle mb-3 rotate-on-hover">
+            <div class="col-md-4 col-lg-3">
+                <div class="text-center p-4 h-100">
+                    <div class="d-inline-block p-3 mb-3">
                         <i class="fas fa-check-double fa-2x text-primary"></i>
                     </div>
                     <h4 class="h5 mb-3 text-primary">Responsabilidad</h4>
                     <p class="text-muted mb-0">Cumplimos con las regulaciones sanitarias y garantizamos la trazabilidad de cada medicamento.</p>
                 </div>
             </div>
-            <div class="col-md-4 col-lg-3" data-aos="fade-up" data-aos-delay="200">
-                <div class="text-center p-4 rounded-3 bg-white shadow-sm h-100 transition-hover" style="transition: transform 0.3s ease;">
-                    <div class="d-inline-block p-3 bg-primary bg-opacity-10 rounded-circle mb-3 rotate-on-hover">
+            <div class="col-md-4 col-lg-3">
+                <div class="text-center p-4 h-100">
+                    <div class="d-inline-block p-3 mb-3">
                         <i class="fas fa-user-md fa-2x text-primary"></i>
                     </div>
                     <h4 class="h5 mb-3 text-primary">Ética y Transparencia</h4>
                     <p class="text-muted mb-0">Construimos relaciones basadas en la confianza y la honestidad.</p>
                 </div>
             </div>
-            <div class="col-md-4 col-lg-3" data-aos="fade-up" data-aos-delay="300">
-                <div class="text-center p-4 rounded-3 bg-white shadow-sm h-100 transition-hover" style="transition: transform 0.3s ease;">
-                    <div class="d-inline-block p-3 bg-primary bg-opacity-10 rounded-circle mb-3 rotate-on-hover">
+            <div class="col-md-4 col-lg-3">
+                <div class="text-center p-4 h-100">
+                    <div class="d-inline-block p-3 mb-3">
                         <i class="fas fa-lightbulb fa-2x text-primary"></i>
                     </div>
                     <h4 class="h5 mb-3 text-primary">Innovación</h4>
@@ -110,53 +110,14 @@
     </div>
 </section>
 
-<!-- Add custom styles for animations -->
+<!-- Add custom styles -->
 <style>
-.transition-hover {
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
+.valores-card {
+    transition: box-shadow 0.2s ease;
 }
 
-.transition-hover:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(74, 137, 220, 0.15);
-}
-
-.transition-hover::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: linear-gradient(90deg, #4a89dc, #5ca9fb);
-    transform: scaleX(0);
-    transition: transform 0.3s ease;
-}
-
-.transition-hover:hover::after {
-    transform: scaleX(1);
-}
-
-.rotate-on-hover {
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.rotate-on-hover:hover {
-    transform: rotate(360deg);
-    background: linear-gradient(135deg, rgba(74, 137, 220, 0.2), rgba(92, 169, 251, 0.2));
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.valores-card:hover {
+    box-shadow: 0 4px 12px rgba(74, 137, 220, 0.1);
 }
 
 .hero-section {
