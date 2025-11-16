@@ -20,16 +20,22 @@ class ProductoDescripcionGeneradorController extends Controller
         $this->apiUrl = env('AI_API_URL');
         $this->model = env('AI_MODEL');
         $this->catalogPath = public_path('catalogo.txt');
+
+        // Validar configuración
+        if (empty($this->apiKey) || empty($this->apiUrl) || empty($this->model)) {
+            throw new \Exception('Configuración de API incompleta. Verifica las variables de entorno.');
+        }
     }
 
-    public function generar(Request $request) {
+    public function generar(Request $request)
+    {
         try {
             $request->validate([
                 'message' => 'required|string|max:255'
             ]);
 
             $userMessage = trim($request->input('message'));
-            
+
             if (!file_exists($this->catalogPath)) {
                 throw new \Exception('No se encontró el archivo de catálogo');
             }
@@ -46,12 +52,12 @@ class ProductoDescripcionGeneradorController extends Controller
                 'HTTP-Referer' => config('app.url'),
                 'Content-Type' => 'application/json',
             ])->post($this->apiUrl, [
-                'model' => $this->model,
-                'messages' => [
-                    ['role' => 'system', 'content' => $systemMessage],
-                    ['role' => 'user', 'content' => $userMessage]
-                ]
-            ]);
+                        'model' => $this->model,
+                        'messages' => [
+                            ['role' => 'system', 'content' => $systemMessage],
+                            ['role' => 'user', 'content' => $userMessage]
+                        ]
+                    ]);
 
             $responseData = $response->json();
 
@@ -60,12 +66,12 @@ class ProductoDescripcionGeneradorController extends Controller
             }
 
             $content = trim($responseData['choices'][0]['message']['content']);
-            
+
             // Limpiar y formatear la respuesta
             $content = strip_tags($content);
             $content = str_replace(["\"", "\n"], ['"', ' '], $content);
             $content = preg_replace('/\s+/', ' ', $content);
-            
+
             // Guardar el registro de autogeneración si el usuario está autenticado
             if (auth()->guard('trabajador')->check()) {
                 AutogeneradorLog::create([
@@ -74,7 +80,7 @@ class ProductoDescripcionGeneradorController extends Controller
                     'descripcion' => $content
                 ]);
             }
-            
+
             // Asegurarse de devolver una respuesta JSON válida
             return response()->json([
                 'success' => true,
@@ -86,13 +92,13 @@ class ProductoDescripcionGeneradorController extends Controller
                 'success' => false,
                 'message' => 'Datos de entrada inválidos: ' . $e->getMessage()
             ], 400);
-            
+
         } catch (\Exception $e) {
             Log::error('Error en ProductoDescripcionGeneradorController: ' . $e->getMessage(), [
                 'exception' => $e,
                 'trace' => $e->getTraceAsString()
             ]);
-            
+
             return response()->json([
                 'success' => false,
                 'message' => 'Error al generar la descripción: ' . $e->getMessage()
