@@ -418,7 +418,6 @@
     @stack('scripts')
 </head>
 <body>
-    
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
             <div class="container">
@@ -658,5 +657,36 @@
     </style>
     <!-- Scripts del chatbot -->
     <script src="{{ asset('js/chatbot.js') }}"></script>
+    
+    <script src="//unpkg.com/alpinejs" defer></script>
+        @if (session()->has('success') || session()->has('error') || session()->has('warning'))
+        <div
+            x-data="{ show: true, type: '{{ session()->has('success') ? 'success' : (session()->has('error') ? 'error' : 'warning') }}', message: '{{ session('success') ?? session('error') ?? session('warning') }}' }"
+            x-show="show"
+            x-init="setTimeout(() => show = false, 4000)"
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 transform translate-y-full"
+            x-transition:enter-end="opacity-100 transform translate-y-0"
+            x-transition:leave="transition ease-in duration-300"
+            x-transition:leave-start="opacity-100 transform translate-y-0"
+            x-transition:leave-end="opacity-0 transform translate-y-full"
+            class="fixed bottom-4 right-4 z-50 p-4 rounded-lg shadow-xl text-white max-w-sm"
+            :class="{
+                'bg-green-500': type === 'success',
+                'bg-red-500': type === 'error',
+                'bg-yellow-500': type === 'warning',
+            }"
+            role="alert"
+        >
+            <div class="flex justify-between items-center">
+                <p x-text="message" class="mr-4"></p>
+                <button @click="show = false" class="text-white hover:text-gray-100">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+        </div>
+        @endif
+        
+    @vite('resources/js/app.js')
 </body>
 </html>

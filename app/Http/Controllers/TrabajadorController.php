@@ -27,7 +27,7 @@ class TrabajadorController extends Controller
     {
         // Verificar si el usuario es admin
         if (Auth::guard('trabajador')->user()->usuario !== 'admin') {
-            return redirect()->route('dashboard.trabajadores')
+            return redirect()->route('trabajadores.index')
                 ->with('error', 'No tienes permisos para crear trabajadores');
         }
         
@@ -57,7 +57,7 @@ class TrabajadorController extends Controller
         
         Trabajador::create($validated);
         
-        return redirect()->route('dashboard.trabajadores')
+        return redirect()->route('trabajadores.index')
             ->with('success', 'Trabajador creado correctamente');
     }
 
@@ -76,7 +76,7 @@ class TrabajadorController extends Controller
     {
         // Verificar si el usuario es admin
         if (Auth::guard('trabajador')->user()->usuario !== 'admin') {
-            return redirect()->route('dashboard.trabajadores')
+            return redirect()->route('trabajadores.index')
                 ->with('error', 'No tienes permisos para editar trabajadores');
         }
         
@@ -117,8 +117,7 @@ class TrabajadorController extends Controller
         
         $trabajador->update($validated);
         
-        return redirect()->route('dashboard.trabajadores')
-            ->with('success', 'Trabajador actualizado correctamente');
+        return redirect()->route('trabajadores.index')->with('success', 'Trabajador ' . $trabajador->nombre . ' actualizado con éxito.');
     }
     
     /**
@@ -128,19 +127,19 @@ class TrabajadorController extends Controller
     {
         // Verificar si el usuario es admin
         if (Auth::guard('trabajador')->user()->usuario !== 'admin') {
-            return redirect()->route('dashboard.trabajadores')
+            return redirect()->route('trabajadores.index')
                 ->with('error', 'No tienes permisos para eliminar trabajadores');
         }
         
         // Evitar que se elimine el usuario admin
         if ($trabajador->usuario === 'admin') {
-            return redirect()->route('dashboard.trabajadores')
+            return redirect()->route('trabajadores.index')
                 ->with('error', 'No se puede eliminar el usuario administrador');
         }
         
         $trabajador->delete();
         
-        return redirect()->route('dashboard.trabajadores')
+        return redirect()->route('trabajadores.index')
             ->with('success', 'Trabajador eliminado correctamente');
     }
 }

@@ -15,8 +15,10 @@ class ProductoController extends Controller
      */
     public function index(Request $request)
     {
-       $query
-        ->when($request->search, function ($query, $search) {
+       $query = Producto::query();
+
+        // 2. Aplicar los filtros condicionales
+        $query->when($request->search, function ($query, $search) {
             return $query
                 ->where('titulo', 'like', "%{$search}%")
                 ->orWhere('descripcion', 'like', "%{$search}%");
@@ -25,9 +27,13 @@ class ProductoController extends Controller
             return $query->where('categoria', $request->categoria);
         });
 
+        // 3. Obtener el término de búsqueda para pasarlo a la vista
         $search = $request->search;
         
+        // 4. Ejecutar la consulta con paginación
         $productos = $query->paginate(10);
+        
+        // 5. Retornar la vista
         return view('dashboard.productos.index', compact('productos', 'search'));
     }
 

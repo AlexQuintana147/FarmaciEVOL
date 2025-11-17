@@ -6,7 +6,7 @@
     <nav aria-label="breadcrumb" class="mb-4">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}" class="text-decoration-none"><i class="fas fa-home"></i> Dashboard</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('dashboard.trabajadores') }}" class="text-decoration-none"><i class="fas fa-users"></i> Trabajadores</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('trabajadores.index') }}" class="text-decoration-none"><i class="fas fa-users"></i> Trabajadores</a></li>
             <li class="breadcrumb-item active" aria-current="page">Editar Trabajador</li>
         </ol>
     </nav>
@@ -113,7 +113,7 @@
                         </div>
                         
                         <div class="d-flex justify-content-end mt-4">
-                            <a href="{{ route('dashboard.trabajadores') }}" class="btn btn-outline-secondary rounded-pill me-2">
+                            <a href="{{ route('trabajadores.index') }}" class="btn btn-outline-secondary rounded-pill me-2">
                                 <i class="fas fa-arrow-left me-2"></i>Volver
                             </a>
                             <button type="submit" class="btn btn-primary rounded-pill">

@@ -241,7 +241,7 @@
                     </div>
                 </div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a href="{{ route('dashboard.trabajadores') }}" class="text-white">Ver detalles</a>
+                    <a href="{{ route('trabajadores.index') }}" class="text-white">Ver detalles</a>
                     <i class="fas fa-angle-right"></i>
                 </div>
             </div>

@@ -94,7 +94,7 @@ Route::middleware(['auth:trabajador'])->group(function () {
     Route::delete('/dashboard/ofertas/{oferta}', [App\Http\Controllers\Dashboard\OfertaController::class, 'destroy'])->name('ofertas.destroy');
     
     //Trabajadores-Dash
-    Route::get('/dashboard/trabajadores', [App\Http\Controllers\TrabajadorController::class, 'index'])->name('dashboard.trabajadores');
+    Route::get('/dashboard/trabajadores', [App\Http\Controllers\TrabajadorController::class, 'index'])->name('trabajadores.index');
     Route::get('/dashboard/trabajadores/create', [App\Http\Controllers\TrabajadorController::class, 'create'])->name('trabajadores.create');
     Route::post('/dashboard/trabajadores', [App\Http\Controllers\TrabajadorController::class, 'store'])->name('trabajadores.store');
     Route::get('/dashboard/trabajadores/{trabajador}', [App\Http\Controllers\TrabajadorController::class, 'show'])->name('trabajadores.show');

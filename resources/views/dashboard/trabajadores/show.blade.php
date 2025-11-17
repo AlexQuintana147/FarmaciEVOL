@@ -8,7 +8,7 @@
             <nav aria-label="breadcrumb" class="mb-4">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}" class="text-decoration-none"><i class="fas fa-home"></i> Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('dashboard.trabajadores') }}" class="text-decoration-none">Trabajadores</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('trabajadores.index') }}" class="text-decoration-none">Trabajadores</a></li>
                     <li class="breadcrumb-item active" aria-current="page">{{ $trabajador->nombre_completo }}</li>
                 </ol>
             </nav>
@@ -21,7 +21,7 @@
                             <p class="text-muted mb-0"><i class="fas fa-id-badge me-2"></i>{{ $trabajador->usuario }}</p>
                         </div>
                         <div class="d-flex mt-3 mt-md-0">
-                            <a href="{{ route('dashboard.trabajadores') }}" class="btn btn-outline-secondary rounded-pill me-2">
+                            <a href="{{ route('trabajadores.index') }}" class="btn btn-outline-secondary rounded-pill me-2">
                                 <i class="fas fa-arrow-left me-2"></i>Volver
                             </a>
                             @if(Auth::guard('trabajador')->user()->usuario === 'admin')
