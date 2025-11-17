@@ -60,6 +60,8 @@
         flex: 0 0 300px;
         padding: 0 15px;
         perspective: 1000px;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     }
 
     .oferta-imagen-container {
