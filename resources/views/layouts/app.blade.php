@@ -426,7 +426,7 @@
                     <img src="{{ asset('images/logo.png') }}" alt="DrodiPharma Logo" style="height: 42px; width: auto;">
                     <span class="ms-2 fw-bold" style="font-size: 1.5rem; color: var(--medical-blue);">DrodiPharma</span>
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Abrir menú de navegación">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
