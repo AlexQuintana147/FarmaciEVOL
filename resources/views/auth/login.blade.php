@@ -203,6 +203,18 @@
             margin-top: 0.25rem;
             font-size: 1.25rem;
         }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            50% { transform: translateX(6px); }
+            75% { transform: translateX(-6px); }
+            100% { transform: translateX(0); }
+        }
+
+        .shake {
+            animation: shake 0.4s ease;
+        }
         
         @media (max-width: 991.98px) {
             .login-illustration {
@@ -266,7 +278,7 @@
             
             <!-- Formulario de inicio de sesión -->
             <div class="col-lg-6">
-                <div class="login-content">
+                <div class="login-content {{ $errors->any() ? 'shake' : '' }}">
                     <div class="logo-container">
                         <div class="logo-icon">
                             <i class="bi bi-capsule-pill"></i>
